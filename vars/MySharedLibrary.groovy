@@ -24,11 +24,11 @@ def sendTelegramMessage(message, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID) {
 }
 
 def sendGmailMessage(message, MAIL_SEND_TO) {
-    emailext (
-        subject: "Docker Deployment",
-        body: message,
-        to: MAIL_SEND_TO
-    )
+     mail bcc: '', 
+     body: message, cc: '', 
+     from: '', replyTo: '', 
+     subject: 'Hello', 
+     to: MAIL_SEND_TO
 }
 
 def selectRandomAvailablePort(minPort, maxPort) {
