@@ -5,7 +5,7 @@ def call(REPO_URL, CREDENTIAL_GIT, BRANCH, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
             // Fetch the code from the Git repository
             git credentialsId: CREDENTIAL_GIT, url: REPO_URL
             sendTelegramMessage("Pull succeeded!", TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
-            sendGmailMessage("Pull succeeded!")
+            //sendGmailMessage("Pull succeeded!")
         } catch (Exception e) {
             sendTelegramMessage("Pull failed!", TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
             throw e
@@ -16,7 +16,7 @@ def call(REPO_URL, CREDENTIAL_GIT, BRANCH, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
             // Fetch the code from the Git repository
             git branch: BRANCH, credentialsId: CREDENTIAL_GIT, url: REPO_URL
             sendTelegramMessage("Pull succeeded!", TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
-            sendGmailMessage("Pull succeeded!")
+            //sendGmailMessage("Pull succeeded!")
         } catch (Exception e) {
             sendTelegramMessage("Pull failed!", TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
             throw e
