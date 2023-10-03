@@ -12,10 +12,33 @@ def call(minPort, maxPort, REGISTRY_DOCKER, BUIDL_CONTAINER_NAME, Docker_Tag, MA
         error "No available ports found in the range $minPort-$maxPort"
     }
 
+    // def usedPorts = listPortsInUseForDocker(minPortValue, maxPortValue)
+    // if (!usedPorts.isEmpty()) {
+    //     echo "Ports already in use for Docker port mapping on port 80: ${usedPorts.join(', ')}"
+    //     sendTelegramMessage("Ports already in use for Docker port mapping on port 80: ${usedPorts.join(', ')}", TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
+    //     sendTelegramMessage("Ports already in use for Docker port mapping on port 3000: ${usedPorts.join(', ')}", TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
+    //     sendTelegramMessage("Ports already in use for Docker port mapping on port 8080: ${usedPorts.join(', ')}", TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
+    // }
     def usedPorts = listPortsInUseForDocker(minPortValue, maxPortValue)
+
     if (!usedPorts.isEmpty()) {
+    // Check if 80 is in the used ports
+    if (usedPorts.contains(80)) {
         echo "Ports already in use for Docker port mapping on port 80: ${usedPorts.join(', ')}"
         sendTelegramMessage("Ports already in use for Docker port mapping on port 80: ${usedPorts.join(', ')}", TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
+    }
+
+    // Check if 3000 is in the used ports
+    if (usedPorts.contains(3000)) {
+        echo "Ports already in use for Docker port mapping on port 3000: ${usedPorts.join(', ')}"
+        sendTelegramMessage("Ports already in use for Docker port mapping on port 3000: ${usedPorts.join(', ')}", TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
+    }
+
+    // Check if 8080 is in the used ports
+    if (usedPorts.contains(8080)) {
+        echo "Ports already in use for Docker port mapping on port 8080: ${usedPorts.join(', ')}"
+        sendTelegramMessage("Ports already in use for Docker port mapping on port 8080: ${usedPorts.join(', ')}", TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
+    }
     }
 }
 
@@ -59,12 +82,22 @@ def isPortAvailable(port) {
     }
 }
 
+// def isPortInUseForDocker(port) {
+//     def dockerPsOutput = sh(script: "docker ps --format '{{.Ports}}'", returnStdout: true).trim()
+
+//     // Check if the Docker container port mapping contains ":$port->80/tcp"
+//     return dockerPsOutput.contains(":$port->80/tcp")
+// }
 def isPortInUseForDocker(port) {
     def dockerPsOutput = sh(script: "docker ps --format '{{.Ports}}'", returnStdout: true).trim()
 
-    // Check if the Docker container port mapping contains ":$port->80/tcp"
-    return dockerPsOutput.contains(":$port->80/tcp")
+    // Check if the Docker container port mapping contains ":$port->80/tcp",
+    // ":$port->3000/tcp", or ":$port->8080/tcp"
+    return dockerPsOutput.contains(":$port->80/tcp") ||
+           dockerPsOutput.contains(":$port->3000/tcp") ||
+           dockerPsOutput.contains(":$port->8080/tcp")
 }
+
 
 def listPortsInUseForDocker(minPort, maxPort) {
     def usedPorts = []
