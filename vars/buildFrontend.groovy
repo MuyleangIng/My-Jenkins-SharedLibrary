@@ -20,12 +20,24 @@ def cleanDockerImages(REGISTRY_DOCKER, BUIDL_CONTAINER_NAME, Docker_Tag) {
     """
 }
 
-def buildDockerImage(REGISTRY_DOCKER, BUIDL_CONTAINER_NAME, Docker_Tag) {
+// def buildDockerImage(REGISTRY_DOCKER, BUIDL_CONTAINER_NAME, Docker_Tag) {
+//     def temporaryDockerfile = "${WORKSPACE}/TemporaryDockerfile"
+//     writeFile file: temporaryDockerfile, text: dockerfileContent
+//     //sh "docker build -t ${BUIDL_CONTAINER_NAME}:${Docker_Tag} -t ${REGISTRY_DOCKER}/${BUIDL_CONTAINER_NAME}:${Docker_Tag} ."
+//     sh "docker build -t ${BUIDL_CONTAINER_NAME}:${Docker_Tag} -t ${REGISTRY_DOCKER}/${BUIDL_CONTAINER_NAME}:${Docker_Tag} -f ${temporaryDockerfile} ."
+
+// }
+def buildDockerImage(REGISTRY_DOCKER, BUIDL_CONTAINER_NAME, Docker_Tag, dockerfileContent) {
     def temporaryDockerfile = "${WORKSPACE}/TemporaryDockerfile"
     writeFile file: temporaryDockerfile, text: dockerfileContent
-    //sh "docker build -t ${BUIDL_CONTAINER_NAME}:${Docker_Tag} -t ${REGISTRY_DOCKER}/${BUIDL_CONTAINER_NAME}:${Docker_Tag} ."
-    sh "docker build -t ${BUIDL_CONTAINER_NAME}:${Docker_Tag} -t ${REGISTRY_DOCKER}/${BUIDL_CONTAINER_NAME}:${Docker_Tag} -f ${temporaryDockerfile} ."
 
+    try {
+        // Build the Docker image using the temporary Dockerfile
+        sh "docker build -t ${BUIDL_CONTAINER_NAME}:${Docker_Tag} -t ${REGISTRY_DOCKER}/${BUIDL_CONTAINER_NAME}:${Docker_Tag} -f ${temporaryDockerfile} ."
+    } finally {
+        // Clean up the temporary Dockerfile
+        deleteFile file: temporaryDockerfile
+    }
 }
 
 def sendTelegramMessage(message) {
