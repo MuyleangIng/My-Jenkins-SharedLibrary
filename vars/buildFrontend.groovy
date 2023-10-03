@@ -20,39 +20,8 @@ def cleanDockerImages(REGISTRY_DOCKER, BUIDL_CONTAINER_NAME, Docker_Tag) {
     """
 }
 
-// def buildDockerImage(REGISTRY_DOCKER, BUIDL_CONTAINER_NAME, Docker_Tag) {
-//     def temporaryDockerfile = "${WORKSPACE}/TemporaryDockerfile"
-//     writeFile file: temporaryDockerfile, text: dockerfileContent
-//     //sh "docker build -t ${BUIDL_CONTAINER_NAME}:${Docker_Tag} -t ${REGISTRY_DOCKER}/${BUIDL_CONTAINER_NAME}:${Docker_Tag} ."
-//     sh "docker build -t ${BUIDL_CONTAINER_NAME}:${Docker_Tag} -t ${REGISTRY_DOCKER}/${BUIDL_CONTAINER_NAME}:${Docker_Tag} -f ${temporaryDockerfile} ."
-
-// }
-def buildDockerImage(REGISTRY_DOCKER, BUIDL_CONTAINER_NAME, Docker_Tag, dockerfileContent) {
-     def dockerfileContent = '''
-    # Dockerfile
-    FROM node:14 as build
-    WORKDIR /app
-    COPY ./ ./
-    RUN npm install --force
-    RUN npm run build
-
-    FROM nginx:1.23.2
-    COPY --from=build /app/build /usr/share/nginx/html
-
-    EXPOSE 80
-    CMD ["nginx", "-g", "daemon off;"]
-    '''
-
-    def temporaryDockerfile = "${WORKSPACE}/TemporaryDockerfile"
-    writeFile file: temporaryDockerfile, text: dockerfileContent
-
-    try {
-        // Build the Docker image using the temporary Dockerfile
-        sh "docker build -t ${BUIDL_CONTAINER_NAME}:${Docker_Tag} -t ${REGISTRY_DOCKER}/${BUIDL_CONTAINER_NAME}:${Docker_Tag} -f ${temporaryDockerfile} ."
-    } finally {
-        // Clean up the temporary Dockerfile
-        deleteFile file: temporaryDockerfile
-    }
+def buildDockerImage(REGISTRY_DOCKER, BUIDL_CONTAINER_NAME, Docker_Tag) {
+    sh "docker build -t ${BUIDL_CONTAINER_NAME}:${Docker_Tag} -t ${REGISTRY_DOCKER}/${BUIDL_CONTAINER_NAME}:${Docker_Tag} ."
 }
 
 def sendTelegramMessage(message) {
@@ -63,3 +32,17 @@ def sendGmailMessage(message) {
     mail bcc: '', body: message, cc: '', from: '', replyTo: '', subject: 'Docker Build Status', to: MAIL_SEND_TO  
 }
 
+// def dockerfileContent = '''
+// # Dockerfile
+// FROM node:14 as build
+// WORKDIR /app
+// COPY ./ ./
+// RUN npm install --force
+// RUN npm run build
+
+// FROM nginx:1.23.2
+// COPY --from=build /app/build /usr/share/nginx/html
+
+// EXPOSE 80
+// CMD ["nginx", "-g", "daemon off;"]
+// '''
