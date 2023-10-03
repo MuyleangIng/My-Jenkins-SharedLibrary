@@ -1,6 +1,4 @@
-import groovy.transform.Field
-
-def deployDockerContainer(minPort, maxPort, REGISTRY_DOCKER, BUIDL_CONTAINER_NAME, Docker_Tag, MAIL_SEND_TO, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID) {
+def call(minPort, maxPort, REGISTRY_DOCKER, BUIDL_CONTAINER_NAME, Docker_Tag, MAIL_SEND_TO, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID) {
     def minPortValue = minPort.toInteger()
     def maxPortValue = maxPort.toInteger()
     def selectedPort = selectRandomAvailablePort(minPortValue, maxPortValue)
