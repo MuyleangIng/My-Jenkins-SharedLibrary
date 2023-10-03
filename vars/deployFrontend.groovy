@@ -5,9 +5,9 @@ def call(minPort, maxPort, REGISTRY_DOCKER, BUIDL_CONTAINER_NAME, Docker_Tag, MA
 
     if (selectedPort) {
         echo "Selected port: $selectedPort"
-        sh "docker run -d -p $selectedPort:80 ${REGISTRY_DOCKER}/${BUIDL_CONTAINER_NAME}:${Docker_Tag}"
-        sendTelegramMessage("Docker Deploy $selectedPort:80 Successfully!", TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
-        sendGmailMessage("Docker Deploy $selectedPort:80 Successfully!", MAIL_SEND_TO)
+        sh "docker run -d -p $selectedPort:3000 ${REGISTRY_DOCKER}/${BUIDL_CONTAINER_NAME}:${Docker_Tag}"
+        sendTelegramMessage("Docker Deploy $selectedPort:3000 Successfully!", TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
+        sendGmailMessage("Docker Deploy $selectedPort:3000 Successfully!", MAIL_SEND_TO)
     } else {
         error "No available ports found in the range $minPort-$maxPort"
     }
