@@ -1,7 +1,7 @@
 // def call(String repoUrl, String branch) {
 //     git branch: branch, url: repoUrl
 // }
-def call( REPO_URL, BRANCH) {
+def gitHandler(REPO_URL, BRANCH, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID) {
     if (deploy == "production") {
     echo "Clone from master"
     try {
