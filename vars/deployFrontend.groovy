@@ -76,9 +76,3 @@ def listPortsInUseForDocker(minPort, maxPort) {
     }
     return usedPorts
 }
-// def dnf(selectedPort) {
-//     def ipAddress = sh(script: 'curl -s ifconfig.me', returnStdout: true).trim()
-//     def ipWithPort = "${ipAddress}:${selectedPort}"
-//     echo "IP Address with Port: ${ipWithPort}"
-//     return ipWithPort  
-// }
