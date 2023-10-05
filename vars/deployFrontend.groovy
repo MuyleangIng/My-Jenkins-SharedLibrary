@@ -8,8 +8,8 @@ def call(minPort, maxPort, REGISTRY_DOCKER, BUIDL_CONTAINER_NAME, Docker_Tag, MA
         sh "docker run -d -p $selectedPort:80 ${REGISTRY_DOCKER}/${BUIDL_CONTAINER_NAME}:${Docker_Tag}"
         sendTelegramMessage("Docker Deploy $selectedPort:80 Successfully!", TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
         sendGmailMessage("Docker Deploy $selectedPort:80 Successfully!", MAIL_SEND_TO)
-        def ipWithPort = dnf(params.PORT_NUMBER)  // Call the dnf function
-                    // Send the ipWithPort as the message to Telegram
+        def ipAddress = sh(script: 'curl -s ifconfig.me', returnStdout: true).trim()
+        def ipWithPort = "${ipAddress}:${selectedPort}"
         sendTelegramMessage(ipWithPort, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
     } else {
         error "No available ports found in the range $minPort-$maxPort"
@@ -76,9 +76,9 @@ def listPortsInUseForDocker(minPort, maxPort) {
     }
     return usedPorts
 }
-def dnf(portNumber) {
-    def ipAddress = sh(script: 'curl -s ifconfig.me', returnStdout: true).trim()
-    def ipWithPort = "${ipAddress}:${portNumber}"
-    echo "IP Address with Port: ${ipWithPort}"
-    return ipWithPort  // Return the ipWithPort value
-}
+// def dnf(selectedPort) {
+//     def ipAddress = sh(script: 'curl -s ifconfig.me', returnStdout: true).trim()
+//     def ipWithPort = "${ipAddress}:${selectedPort}"
+//     echo "IP Address with Port: ${ipWithPort}"
+//     return ipWithPort  
+// }
