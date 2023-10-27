@@ -1,11 +1,11 @@
-def call(minPort, maxPort, REGISTRY_DOCKER, BUIDL_CONTAINER_NAME, Docker_Tag, MAIL_SEND_TO, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID) {
+def call(minPort, maxPort, REGISTRY_DOCKER, BUIDL_CONTAINER_NAME, DOCKER_TAG, MAIL_SEND_TO, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID) {
     def minPortValue = minPort.toInteger()
     def maxPortValue = maxPort.toInteger()
     def selectedPort = selectRandomAvailablePort(minPortValue, maxPortValue)
 
     if (selectedPort) {
         echo "Selected port: $selectedPort"
-        sh "docker run -d -p $selectedPort:80 ${REGISTRY_DOCKER}/${BUIDL_CONTAINER_NAME}:${Docker_Tag}"
+        sh "docker run -d -p $selectedPort:80 ${REGISTRY_DOCKER}/${BUIDL_CONTAINER_NAME}:${DOCKER_TAG}"
         sendTelegramMessage("Docker Deploy $selectedPort:80 Successfully!", TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
         sendGmailMessage("Docker Deploy $selectedPort:80 Successfully!", MAIL_SEND_TO)
         def ipAddress = sh(script: 'curl -s ifconfig.me', returnStdout: true).trim()
