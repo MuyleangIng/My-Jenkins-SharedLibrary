@@ -10,7 +10,7 @@ def call(REPO_URL, CREDENTIAL_GIT, BRANCH, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
             sendTelegramMessage("Pull failed!", TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
             throw e
         }
-    }else if (TEST_CHOICE == "development") {
+    }else if (TEST_CHOICE == "staging") {
         echo "Clone from main"
         try {
             // Fetch the code from the Git repository
