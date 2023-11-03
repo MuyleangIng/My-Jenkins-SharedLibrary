@@ -57,10 +57,23 @@ def isPortAvailable(port) {
     }
 }
 
+// def isPortInUseForDocker(port) {
+//     def dockerPsOutput = sh(script: "docker ps --format '{{.Ports}}'", returnStdout: true).trim()
+//     return dockerPsOutput.contains(":$port->8080/tcp")
+// }
 def isPortInUseForDocker(port) {
     def dockerPsOutput = sh(script: "docker ps --format '{{.Ports}}'", returnStdout: true).trim()
-    return dockerPsOutput.contains(":$port->8080/tcp")
+    def portsToCheck = [8080, 8081, 8083, 8084, 8085] // Add more ports as needed
+
+    for (checkPort in portsToCheck) {
+        if (dockerPsOutput.contains(":$port->$checkPort/tcp")) {
+            return true
+        }
+    }
+
+    return false
 }
+
 def listPortsInUseForDocker(minPort, maxPort) {
     def usedPorts = []
     for (int port = minPort; port <= maxPort; port++) {
