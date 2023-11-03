@@ -5,7 +5,7 @@ def call(minPort, maxPort, REGISTRY_DOCKER, BUIDL_CONTAINER_NAME, DOCKER_TAG, MA
 
     if (selectedPort) {
         echo "Selected port: $selectedPort"
-        sh "docker run -d -p $selectedPort:80  ${REGISTRY_DOCKER}/${BUIDL_CONTAINER_NAME}:${DOCKER_TAG}"
+        sh "docker run -d -p $selectedPort:80 --name ${BUIDL_CONTAINER_NAME} ${REGISTRY_DOCKER}/${BUIDL_CONTAINER_NAME}:${DOCKER_TAG}"
         sendTelegramMessage("Docker Deploy $selectedPort:80 Successfully!", TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
         sendGmailMessage("Docker Deploy $selectedPort:80 Successfully!", MAIL_SEND_TO)
         def ipAddress = sh(script: 'curl -s ifconfig.me', returnStdout: true).trim()
