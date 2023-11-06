@@ -4,7 +4,8 @@ def call(minPort, maxPort, REGISTRY_DOCKER, BUIDL_CONTAINER_NAME,CONTAINER_NAME,
     def selectedPort = selectRandomAvailablePort(minPortValue, maxPortValue)
     if (selectedPort) {
         echo "Selected port: $selectedPort"
-        sh "docker run -d -p $selectedPort:8080 --name ${CONTAINER_NAME} -v spring-volume:app/src/main/resources/images ${REGISTRY_DOCKER}/${BUIDL_CONTAINER_NAME}:${DOCKER_TAG}"
+        // sh "docker run -d -p $selectedPort:8080 --name ${CONTAINER_NAME} -v spring-volume:app/src/main/resources/images ${REGISTRY_DOCKER}/${BUIDL_CONTAINER_NAME}:${DOCKER_TAG}"
+        sh "docker run -d -p $selectedPort:8080 --name ${CONTAINER_NAME} -v spring-volume:/app/src/main/resources/images -v /src/main/resources/images:/app/src/main/resources/images ${REGISTRY_DOCKER}/${BUIDL_CONTAINER_NAME}:${DOCKER_TAG}"
         sendTelegramMessage("Docker Deploy $selectedPort:8080 Successfully!", TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
         sendGmailMessage("Docker Deploy $selectedPort:8080 Successfully!", MAIL_SEND_TO)
         def ipAddress = sh(script: 'curl -s ifconfig.me', returnStdout: true).trim()
