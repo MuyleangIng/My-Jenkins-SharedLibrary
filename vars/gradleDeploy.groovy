@@ -19,6 +19,26 @@ def call(minPort, maxPort, REGISTRY_DOCKER, BUIDL_CONTAINER_NAME,CONTAINER_NAME,
         echo "Ports already in use for Docker port mapping on port 8080: ${usedPorts.join(', ')}"
         sendTelegramMessage("Ports already in use for Docker port mapping on port 8080: ${usedPorts.join(', ')}", TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
     }
+    def sendTelegramMessages(messageData) {
+    for (data in messageData) {
+        if (data.size() == 3) {
+            sendMessage(data[0], data[1], data[2]) // Send a single message
+        } else if (data.size() == 4) {
+            sendMessage("${data[0]}\n\n${data[2]}", data[1], data[3]) // Send main message with an optional message
+        }
+        // Add more conditions if needed
+    }
+}
+
+// Example of usage within your existing function
+def messageData = [
+    ["Docker Deploy $selectedPort:8080 Successfully!", TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID],
+    ["Ports already in use for Docker port mapping on port 8080: ${usedPorts.join(', ')}", TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID],
+    [ipWithPort, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID]
+]
+
+sendTelegramMessages(messageData)
+
 }
 def sendTelegramMessage(message, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID) {
     sh "curl -s -X POST https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage -d chat_id=${TELEGRAM_CHAT_ID} -d text='${message}'"
