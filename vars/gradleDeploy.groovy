@@ -9,7 +9,7 @@ def call(minPort, maxPort, REGISTRY_DOCKER, BUIDL_CONTAINER_NAME,CONTAINER_NAME,
         sendGmailMessage("Docker Deploy $selectedPort:8080 Successfully!", MAIL_SEND_TO)
         def ipAddress = sh(script: 'curl -s ifconfig.me', returnStdout: true).trim()
         def ipWithPort = "${ipAddress}:${selectedPort}"
-        sendTelegramMessage("http://"ipWithPort, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
+        sendTelegramMessage(ipWithPort, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
     } else {
         error "No available ports found in the range $minPort-$maxPort"
     }
