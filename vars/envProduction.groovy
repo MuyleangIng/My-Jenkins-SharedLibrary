@@ -1,8 +1,6 @@
 def call() {
-    sh 'touch .env.production'
     writeFile file: '.env.production', text: """
-    RAILS_ENV=production
-    
+
     NEXT_PUBLIC_BASE_URL=https://automatex.begoingdev.me/api/v1
     NEXTAUTH_SECRET=shTm0XQPhKqSXmAdHTSsBg==
     NEXTAUTH_URL=https://automatex.dev
