@@ -13,5 +13,7 @@ def call() {
     
     GOOGLE_CLIENT_ID=77228516030-eg7aqtirnbitsg242askud7vhoqsrdf3.apps.googleusercontent.com
     GOOGLE_CLIENT_SECRET=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
+    NEXT_PUBLIC_DOMAIN_NAME=sen-pai.live
+
     """
 }
