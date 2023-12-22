@@ -23,6 +23,7 @@ def call() {
     GOOGLE_CLIENT_SECRET=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
     
     NEXT_PUBLIC_DOMAIN_NAME=sen-pai.live
+    NEXT_PUBLIC_CLOUD_URL=https://cloud.automatex.dev
 
 
     """
