@@ -1,9 +1,9 @@
 def call() {
     writeFile file: '.env.production', text: """
 
-    NEXT_PUBLIC_BASE_URL=https://automatex.begoingdev.me/api/v1
+    NEXT_PUBLIC_BASE_URL=https://api.automatex.dev/api/v1
     #Gitlab
-    NEXT_PUBLIC_GITLAB_URL=https://gitlab-ce.sen-pai.live/api/v4
+    NEXT_PUBLIC_GITLAB_URL=https://git.automatex.dev/api/v4
     # next-auth
     NEXTAUTH_SECRET=shTm0XQPhKqSXmAdHTSsBg==
     NEXTAUTH_URL=https://automatex.dev
