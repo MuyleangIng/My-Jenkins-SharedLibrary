@@ -33,7 +33,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                clean
+                cleanWs()
             }
         }
         stage('Get Code from SCM') {
