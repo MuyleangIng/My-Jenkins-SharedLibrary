@@ -9,7 +9,7 @@ pipeline {
         string(name: 'BUILD_CONTAINER_NAME', defaultValue: 'reactjs', description: 'container')
         string(name: 'CONTAINER_NAME', defaultValue: generateContainerName(), description: 'container')
         string(name: 'DOCKER_TAG', defaultValue: 'latest', description: 'Docker_tag')
-        string(name: 'REPO_URL', defaultValue: 'https://github.com/MuyleangIng/react-fdfdfproject.git', description: 'Repository URL')
+        string(name: 'REPO_URL', defaultValue: 'https://github.com/MuyleangIng/react-project.git', description: 'Repository URL')
     }
     environment {
         TELEGRAM_BOT_TOKEN = '7170672345:AAEYnjTjXOqP8qGGSS1vq619BSo4pScuGlw'
@@ -33,7 +33,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                cleanWs()
+                clean
             }
         }
         stage('Get Code from SCM') {
